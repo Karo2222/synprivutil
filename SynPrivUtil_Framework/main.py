@@ -28,13 +28,6 @@ def main():
     #real_data = pd.read_csv('/Users/ksi/Development/Bachelorthesis/self_transformed_SD2011_selected_columns.csv')
     #synthetic_data = pd.read_csv('/Users/ksi/Development/Bachelorthesis/self_transformed_syn_SD2011_selected_columns.csv')
 
-# test_path = '/Users/ksi/Development/Bachelorthesis/test.csv'
-    #
-    # # Read and transform the real data
-    # real_data, encoder, scaler = read_and_transform_data(test_path)
-    #
-    # # Save transformed original data to a CSV file
-    # real_data.to_csv('/Users/ksi/Development/Bachelorthesis/test_transformed.csv', index=False)
 
     p = PrivacyMetricManager(real_data, synthetic_data)
 
@@ -52,54 +45,15 @@ def main():
     # p.add_metric(InferenceCalculator, aux_cols=["sex", "age", "region", "placesize"], secret='workab')
     # p.add_metric(SinglingOutCalculator, aux_cols=["sex", "age", "region", "placesize"], secret='workab')
 
-    t = WassersteinCalculator(real_data, synthetic_data)
-    print(t.evaluate())
     # Evaluate all added metrics
     results = p.evaluate_all()
     for key, value in results.items():
         print(f"{key}: {value}")
-    return
 
-    # # Initialize encoder and scaler
-    # encoder = None
-    # scaler = None
-    #
-    # # Check and load the encoder if it exists
-    # if os.path.exists('encoder.pkl'):
-    #     encoder = joblib.load('encoder.pkl')
-    # else:
-    #     print("Encoder file not found. Proceeding without encoder.")
-    #
-    # # Check and load the scaler if it exists
-    # if os.path.exists('scaler.pkl'):
-    #     scaler = joblib.load('scaler.pkl')
-    #     print(f"Scaler loaded: {type(scaler).__name__}")
-    # else:
-    #     print("Scaler file not found. Proceeding without scaler.")
-    #
-    # #validate_datasets(real_data, synthetic_data)
-    #
-    # # Convert DataFrames to NumPy arrays
-    # real_data_np = real_data.to_numpy()
-    # synthetic_data_np = synthetic_data.to_numpy()
-    #
-    # # Calculate DCR using Euclidean distance
-    # dcr_euclidean = calculate_dcr(real_data_np, synthetic_data_np, metric='euclidean')
-    # print(f"Average DCR (Euclidean): {dcr_euclidean}")
-    #
-    # # Calculate DCR using Manhattan (Cityblock) distance
-    # dcr_manhattan = calculate_dcr(real_data_np, synthetic_data_np, metric='cityblock')
-    # print(f"Average DCR (Manhattan): {dcr_manhattan}")
-    #
-    # # Calculate DCR using Hamming distance (ensure BINARY data for this metric)
-    # if encoder is not None:
-    #     categorical_cols = encoder.inverse_transform(synthetic_data_np[:, :len(encoder.get_feature_names_out())])
-    #     synthetic_data_cat = np.concatenate([categorical_cols, synthetic_data_np[:, len(encoder.get_feature_names_out()):]], axis=1)
-    # else:
-    #     synthetic_data_cat = synthetic_data_np
-    #
-    # dcr_hamming = calculate_dcr(real_data_np, synthetic_data_cat, metric='hamming')
-    # print(f"Average DCR (Hamming): {dcr_hamming}")
+    t = WassersteinCalculator(real_data, synthetic_data)
+    print(f"~~~~~~~~~~~~~ Wasserstein might take a longer time. ~~~~~~~~~~~~~")
+    print(f"Wasserstein: {t.evaluate()}")
+
 
 if __name__ == "__main__":
     main()
