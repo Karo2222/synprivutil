@@ -1,5 +1,5 @@
 import pandas as pd
-from anonymeter.evaluators import InferenceEvaluator
+from sklearn.neighbors import NearestNeighbors
 
 from SynPrivUtil_Framework.synprivutil.privacy_metrics import PrivacyMetricCalculator
 
@@ -10,7 +10,6 @@ class DiscoCalculator(PrivacyMetricCalculator):
 
     def evaluate(self):
         pass
-        # Create an instance of InferenceCalculator with the provided columns
         #data is a dataframe
         #dd <- data
         #Nd <- dim(dd)[1]
@@ -30,26 +29,40 @@ class DiscoCalculator(PrivacyMetricCalculator):
         #DiSCO <- sum(tab_DiSCO)/Nd*100
         # Perform the evaluation and return the result
         import pandas as pd
-import numpy as np
 
-def calculate_disco(original_df, synthetic_df, key_columns):
-    # Ensure key_columns exist in both datasets
-    assert all(col in original_df.columns for col in key_columns)
-    assert all(col in synthetic_df.columns for col in key_columns)
+def calculate_disco(original_df: pd.DataFrame, synthetic_df: pd.DataFrame, key_columns: list) -> float:
+    """
+    Calculate the DiSCO (Disclosure Risk) metric.
 
-    # Create a cross-tabulation (joint distribution) on key columns
-    original_ctab = pd.crosstab(index=[original_df[key] for key in key_columns], columns='count')
-    synthetic_ctab = pd.crosstab(index=[synthetic_df[key] for key in key_columns], columns='count')
+    Parameters:
+    original_df (pd.DataFrame): The original dataset.
+    synthetic_df (pd.DataFrame): The synthetic dataset.
+    key_columns (list): List of column names that are considered as key attributes.
 
-    # Align the synthetic crosstab to the original (add missing keys)
-    synthetic_ctab = synthetic_ctab.reindex(original_ctab.index, fill_value=0)
+    Returns:
+    float: The DiSCO value.
+    """
 
-    # Calculate DiSCO (sum of correctly matched counts normalized by the original's total)
-    disco = (synthetic_ctab * original_ctab).sum().sum() / original_ctab.sum().sum() * 100
+    # def _compute_distance_matrix(df: pd.DataFrame, key_columns: list) -> np.ndarray:
+    #     """Compute distance matrix for given DataFrame based on key columns."""
+    #     X = df[key_columns].values
+    #     nn = NearestNeighbors(n_neighbors=1, algorithm='auto').fit(X)
+    #     distances, _ = nn.kneighbors(X)
+    #     return distances
+    #
+    # # Compute distance matrices
+    # dist_matrix_original = _compute_distance_matrix(original_df, key_columns)
+    # dist_matrix_synthetic = _compute_distance_matrix(synthetic_df, key_columns)
+    #
+    # # Compute DiSCO
+    # min_dist_original = np.min(dist_matrix_original, axis=1)
+    # min_dist_synthetic = np.min(dist_matrix_synthetic, axis=1)
+    #
+    # disco_value = np.mean(min_dist_synthetic > min_dist_original) * 100
+    #
+    # return disco_value
 
-    return disco
-
-
+# NOTE: Still testing
 real_data = pd.read_csv('/Users/ksi/Development/Bachelorthesis/SD2011_selected_columns.csv')
 synthetic_data = pd.read_csv('/Users/ksi/Development/Bachelorthesis/syn_SD2011_selected_columns.csv')
 

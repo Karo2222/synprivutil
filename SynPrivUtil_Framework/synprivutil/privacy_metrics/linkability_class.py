@@ -7,6 +7,7 @@ from SynPrivUtil_Framework.synprivutil.privacy_metrics import PrivacyMetricCalcu
 
 # TODO: extend params
 
+
 class LinkabilityCalculator(PrivacyMetricCalculator):
     def __init__(self, original_data: pd.DataFrame, synthetic_data: pd.DataFrame, aux_cols: tuple[list[str], list[str]]):
         super().__init__(original_data, synthetic_data, aux_cols=aux_cols)
