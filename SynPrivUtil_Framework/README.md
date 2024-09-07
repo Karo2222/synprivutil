@@ -1,0 +1,1 @@
+A Python library for calculating the privacy and utility preservation level of synthetic data.
