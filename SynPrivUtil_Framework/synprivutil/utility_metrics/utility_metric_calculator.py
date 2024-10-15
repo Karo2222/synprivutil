@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 import pandas as pd
 
 
@@ -9,6 +11,7 @@ class UtilityMetricCalculator:
     def _handle_additional_inputs(self, **kwargs):
         pass
 
+    @abstractmethod
     def evaluate(self) -> float:
         raise NotImplementedError("Subclasses should implement this method.")
 

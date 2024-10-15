@@ -1,10 +1,10 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Type, Any
 import pandas as pd
 
 
 # TODO: Normalize data
-class PrivacyMetricCalculator:
+class PrivacyMetricCalculator(ABC):
     def __init__(self, original_data: pd.DataFrame, synthetic_data: pd.DataFrame, **kwargs):
         self.original_data = original_data
         self.synthetic_data = synthetic_data
@@ -15,8 +15,9 @@ class PrivacyMetricCalculator:
     def _handle_additional_inputs(self, **kwargs):
         pass
 
+    @abstractmethod
     def evaluate(self) -> float:
-        raise NotImplementedError("Subclasses should implement this method.")
+        pass
 
     def _validate_data(self):
         """

@@ -1,12 +1,7 @@
-import numpy as np
-import pandas as pd
-import joblib
-import os
+from scipy.stats import spearmanr
 
-from scipy.spatial.distance import cdist
-
-from SynPrivUtil_Framework.synprivutil.privacy_metrics.adversarial_accuracy_class import AdversarialAccuracyCalculator
-from SynPrivUtil_Framework.synprivutil.utility_metrics.wasserstein import WassersteinCalculator
+from SynPrivUtil_Framework.synprivutil.privacy_metrics.distance.adversarial_accuracy_class import AdversarialAccuracyCalculator
+from SynPrivUtil_Framework.synprivutil.utility_metrics.statistical.wasserstein import WassersteinCalculator
 from synprivutil.privacy_metrics import *
 from synprivutil.preprocessing import *
 
@@ -45,12 +40,37 @@ def main():
     # p.add_metric(InferenceCalculator, aux_cols=["sex", "age", "region", "placesize"], secret='workab')
     # p.add_metric(SinglingOutCalculator, aux_cols=["sex", "age", "region", "placesize"], secret='workab')
 
+
+
+
+    orig = pd.read_csv("/Users/ksi/Development/Bachelorthesis/transformed_SD2011_selected_columns.csv")
+    syn = pd.read_csv("/Users/ksi/Development/Bachelorthesis/transformed_syn_SD2011_selected_columns.csv")
+
+
+    orig = pd.read_csv("/Users/ksi/Development/Bachelorthesis/diabetes_transformed_ctgan.csv")
+    syn = pd.read_csv("/Users/ksi/Development/Bachelorthesis/synthetic_data_transformed_ctgan.csv")
+
+    # Calculate descriptive statistics for each numerical column
+    desc_stats_original = orig.describe().loc[['min', 'max', '50%', 'mean', 'std']]
+    desc_stats_synthetic = syn.describe().loc[['min', 'max', '50%', 'mean', 'std']]
+    print(desc_stats_original)
+    print(desc_stats_synthetic)
+
+    # Flatten the statistics and compute Spearman's Rho correlation
+    flattened_original = desc_stats_original.values.flatten()
+    flattened_synthetic = desc_stats_synthetic.values.flatten()
+
+    # Spearman's Rho calculation
+    rho, p_value = spearmanr(flattened_original, flattened_synthetic)
+
+    print(f"Spearman's Rho: {rho}")
+
     # Evaluate all added metrics
     results = p.evaluate_all()
     for key, value in results.items():
         print(f"{key}: {value}")
 
-    t = WassersteinCalculator(real_data, synthetic_data)
+    t = WassersteinCalculator(orig, syn)
     print(f"~~~~~~~~~~~~~ Wasserstein might take a longer time. ~~~~~~~~~~~~~")
     print(f"Wasserstein: {t.evaluate()}")
 
