@@ -3,6 +3,8 @@ from matplotlib import pyplot as plt
 
 from privacy_utility_framework.privacy_utility_framework.utility_metrics import MICalculator, KSCalculator, \
     CorrelationCalculator, CorrelationMethod
+from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.basic_stats import \
+    BasicStatsCalculator
 from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.js_similarity import JSCalculator
 from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.wasserstein import \
     WassersteinMethod, WassersteinCalculator
@@ -78,8 +80,24 @@ def correlation_example():
             calc = CorrelationCalculator(original_data, synthetic_data)
             print(f"~~~Pair: {orig, syn}~~~")
             print(f"{calc.evaluate()}\n")
+
+
+def basic_stats_example():
+    synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
+    original_datasets =["diabetes", "cardio", "insurance"]
+    for orig in original_datasets:
+        for syn in synthetic_datasets:
+            original_data = pd.read_csv(f"../datasets/original/{orig}.csv")
+            synthetic_data = pd.read_csv(
+                f"../datasets/synthetic/{orig}_datasets/{syn}_sample.csv")
+            calc = BasicStatsCalculator(original_data, synthetic_data)
+            res = calc.evaluate()
+            print(f"PAIR {orig, syn}")
+            print(res)
+
 # wasserstein_example()
 # mutual_information_example()
 # ks_example()
 # js_similarity_example()
-correlation_example()
+# correlation_example()
+basic_stats_example()

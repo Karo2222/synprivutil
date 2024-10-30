@@ -2,7 +2,7 @@ from typing import Union, List, Dict
 
 from privacy_utility_framework.privacy_utility_framework.utility_metrics import UtilityMetricCalculator
 
-
+# DONE
 class UtilityMetricManager:
     """
     A manager for handling multiple utility metric calculators, enabling batch addition and evaluation of metrics.

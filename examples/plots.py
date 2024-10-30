@@ -4,8 +4,10 @@ from matplotlib import pyplot as plt
 
 from privacy_utility_framework.privacy_utility_framework.dataset.dataset import DatasetManager
 from privacy_utility_framework.privacy_utility_framework.plots.plots import plot_original_vs_synthetic, \
-    mutual_information_heatmap, plot_pairwise_relationships, correlation_plot_heatmap
+    mutual_information_heatmap, plot_pairwise_relationships, correlation_plot_heatmap, plot_all_stats_for_stat
 from privacy_utility_framework.privacy_utility_framework.utility_metrics import KSCalculator
+from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.basic_stats import \
+    BasicStatsCalculator
 from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.wasserstein import \
     WassersteinMethod, WassersteinCalculator
 
@@ -106,9 +108,27 @@ def correlation_plot_example():
             synthetic_data = pd.read_csv(
                 f"../datasets/synthetic/{orig}_datasets/{syn}_sample.csv")
             correlation_plot_heatmap(original_data, synthetic_data, original_name=orig, synthetic_name=syn)
+
+
+def basic_stats_plot_example():
+    synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
+    original_datasets =["diabetes", "cardio", "insurance"]
+
+    for orig in original_datasets:
+        all_stats = {}
+        for syn in synthetic_datasets:
+            original_data = pd.read_csv(f"../datasets/original/{orig}.csv")
+            synthetic_data = pd.read_csv(
+                f"../datasets/synthetic/{orig}_datasets/{syn}_sample.csv")
+            calc = BasicStatsCalculator(original_data, synthetic_data)
+            print(f"PAIR {orig, syn}")
+            all_stats[f'{orig}_{syn}'] = calc.compute_basic_stats()
+        for stat in ['mean', 'median', 'var']:
+            plot_all_stats_for_stat(all_stats, stat, orig)
 # mutual_information_plot_example()
 # pairwise_plot_example()
 # plot_attributes_example()
 # ks_test_plot_comparison()
 # correlation_plot_example()
-wasserstein_plot_example()
+# wasserstein_plot_example()
+basic_stats_plot_example()
