@@ -1,7 +1,8 @@
 import pandas as pd
 
-from privacy_utility_framework.privacy_utility_framework.models.transform import dynamic_train_test_split
+from privacy_utility_framework.privacy_utility_framework.utils.utils import dynamic_train_test_split
 
+# DONE
 
 def train_test_example():
     # Define the original dataset name
