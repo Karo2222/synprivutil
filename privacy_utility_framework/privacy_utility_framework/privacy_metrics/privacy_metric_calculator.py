@@ -21,7 +21,9 @@ class PrivacyMetricCalculator(ABC):
     synthetic_name : str, optional
         Name for the synthetic dataset.
     """
-    def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame, original_name: str = None, synthetic_name: str = None, **kwargs):
+
+    def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame, original_name: str = None,
+                 synthetic_name: str = None, **kwargs):
         # Initialize attributes for original and synthetic data
         self.synthetic = None
         self.original = None
@@ -35,7 +37,6 @@ class PrivacyMetricCalculator(ABC):
         self._transform_and_normalize(original, synthetic, original_name, synthetic_name)
         # Perform data validation to ensure compatibility between datasets
         self._validate_data()
-
 
     @abstractmethod
     def evaluate(self) -> float:

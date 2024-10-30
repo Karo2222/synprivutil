@@ -17,13 +17,13 @@ def syn_generation_example():
     use_train = True
 
     # Flag indicating whether to generate new synthetic data
-    generate_new_syn = False
+    generate_new_syn = True
 
     # Load the appropriate dataset based on the use_train flag
     if use_train:
         # Load the training dataset from the specified path
         data = pd.read_csv(
-            f'../examples/insurance_datasets/train/{orig}.csv',
+            f'../examples/{orig}_datasets/train/{orig}.csv',
             delimiter=',')
         # Adjust the folder path for synthetic data generation
         folder = f"{folder}/syn_on_train"
@@ -55,7 +55,7 @@ def syn_generation_example():
         ctgan_model = CTGANModel(metadata)
         ctgan_model.fit(data)
         # Save CTGAN-generated synthetic samples and model
-        ctgan_model.save_sample(folder + "/" + "ctgan_sample.csv", len(data))
+        ctgan_model.save_sample(f"{folder}/ctgan_sample.csv", len(data))
         ctgan_model.save_model(f"{folder}/ctgan_model.pkl")
 
         # Initialize and fit Copula GAN Model
