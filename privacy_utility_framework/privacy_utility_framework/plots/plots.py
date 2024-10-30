@@ -1,17 +1,12 @@
 from typing import List
-
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import mean_squared_error
 
-from privacy_utility_framework.privacy_utility_framework.models.transform import transform_rdt, transform_and_normalize
-from privacy_utility_framework.privacy_utility_framework.utility_metrics import MICalculator, KSCalculator, \
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.correlation import \
     CorrelationCalculator, CorrelationMethod
-from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.basic_stats import \
-    BasicStatsCalculator
-
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.mutual_information import \
+    MICalculator
 
 def plot_original_vs_synthetic(original_data, synthetic_data):
     num_columns = len(original_data.columns)

@@ -1,7 +1,8 @@
 import pandas as pd
 
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.distance.DiSCO.disco_whole_code import \
+    disclosure
 from privacy_utility_framework.privacy_utility_framework.models.transform import normalize
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.distance.DiSCO.disco_whole_code import disclosure
 
 # real_data = pd.read_csv("/Users/ksi/Development/Bachelorthesis/diabetes.csv")
 # synthetic_data = pd.read_csv("/Users/ksi/Development/Bachelorthesis/synthetic_data.csv")

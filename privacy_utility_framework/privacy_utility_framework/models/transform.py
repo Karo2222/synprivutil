@@ -5,21 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
 
-def transform_and_normalize(original_data, synthetic_data=None):
-    transformed_orig, transformed_syn, transformer = transform_rdt(original_data, synthetic_data)
-
-    norm_orig, norm_syn = normalize(transformed_orig, transformed_syn)
-    # # Initialize the MinMaxScaler
-    # scaler = MinMaxScaler()
-    # orig_norm = scaler.fit_transform(transformed_orig)
-    # orig_scaled = pd.DataFrame(orig_norm, columns=transformed_orig.columns)
-    # syn_scaled = None
-    # if transformed_syn is not None:
-    #     syn_norm = scaler.transform(transformed_syn)
-    #     syn_scaled = pd.DataFrame(syn_norm, columns=transformed_syn.columns)
-    #     #print("Synthetic Data was also transformed.")
-    return norm_orig, norm_syn
-
 
 def normalize(original_data, synthetic_data):
     non_categorical_cols = original_data.select_dtypes(include=[float, int]).columns

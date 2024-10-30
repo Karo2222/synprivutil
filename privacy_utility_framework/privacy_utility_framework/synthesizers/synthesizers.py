@@ -5,6 +5,7 @@ from sdv.metadata import SingleTableMetadata
 from sdv.single_table import TVAESynthesizer, CopulaGANSynthesizer, CTGANSynthesizer, GaussianCopulaSynthesizer
 from sklearn.mixture import GaussianMixture
 
+from privacy_utility_framework.privacy_utility_framework.dataset.dataset import Dataset
 from privacy_utility_framework.privacy_utility_framework.models.transform import transform_rdt
 
 # DONE
@@ -196,7 +197,11 @@ class GaussianMixtureModel(BaseModel):
             data (pd.DataFrame): Input data for model fitting.
             random_state (int): Seed for reproducibility.
         """
-        self.transformed_data, _, self.transformer = transform_rdt(data)
+        dataset = Dataset(data)
+        dataset.set_transformer_and_scaler()
+        dataset.transform()
+        self.transformed_data = dataset.transformed_data
+        self.transformer = dataset.transformer
         optimal_n_components = self._select_n_components(self.transformed_data, random_state)
         self.model = GaussianMixture(n_components=optimal_n_components, random_state=random_state)
         self.model.fit(self.transformed_data)

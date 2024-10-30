@@ -1,12 +1,15 @@
 import pandas as pd
-from matplotlib import pyplot as plt
 
-from privacy_utility_framework.privacy_utility_framework.utility_metrics import MICalculator, KSCalculator, \
-    CorrelationCalculator, CorrelationMethod
-from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.basic_stats import \
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.basic_stats import \
     BasicStatsCalculator
-from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.js_similarity import JSCalculator
-from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.wasserstein import \
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.correlation import \
+    CorrelationCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.js_similarity import \
+    JSCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.ks_test import KSCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.mutual_information import \
+    MICalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.wasserstein import \
     WassersteinMethod, WassersteinCalculator
 
 
