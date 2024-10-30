@@ -1,6 +1,7 @@
 import pandas as pd
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics import InferenceCalculator
+from privacy_utility_framework.privacy_utility_framework.privacy_metrics import InferenceCalculator, \
+    LinkabilityCalculator, SinglingOutCalculator
 
 
 def inference_example():
@@ -20,11 +21,48 @@ def inference_example():
             for secret in columns:
                 aux_cols = [col for col in columns if col != secret]
                 test_sing = InferenceCalculator(original_data, synthetic_data, aux_cols=aux_cols, secret=secret,
-                                                control=control)
+                                                control=control, n_attacks=200)
                 t = test_sing.evaluate()
                 results.append((secret, t))
             print(f"~~~Synthetic Dataset generated with: {syn}~~~")
             print(results)
 
 
+def linkability_example():
+    synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
+    original_datasets =["insurance"]
+    aux_cols_i = (["age", "sex", "bmi"], ["children", "smoker", "region", "charges"])
+
+    print("STARTED")
+
+    for orig in original_datasets:
+        for syn in synthetic_datasets:
+            original_data = pd.read_csv(f"../examples/{orig}_datasets/train/{orig}.csv")
+            synthetic_data = pd.read_csv(f"../examples/{orig}_datasets/syn_on_train/{syn}_sample.csv")
+            control_orig = pd.read_csv(f"../examples/{orig}_datasets/test/{orig}.csv")
+            link = LinkabilityCalculator(original_data, synthetic_data, aux_cols=aux_cols_i, control=control_orig, n_attacks=260)
+
+            result = link.evaluate()
+            print(f"~~~Linkability Risk for {orig, syn}~~~")
+            print(result)
+
+def singling_out_example():
+    synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
+    original_datasets =["insurance"]
+
+    for orig in original_datasets:
+        for syn in synthetic_datasets:
+            original_data = pd.read_csv(f"../examples/{orig}_datasets/train/{orig}.csv")
+            synthetic_data = pd.read_csv(f"../examples/{orig}_datasets/syn_on_train/{syn}_sample.csv")
+
+            test_sing = SinglingOutCalculator(original_data, synthetic_data)
+
+            # NOTE: This may take a little longer
+            results = test_sing.evaluate()
+            print(f"~~~Singling Out Risk for {orig, syn}~~~")
+            print(results)
+
+
 inference_example()
+linkability_example()
+singling_out_example()

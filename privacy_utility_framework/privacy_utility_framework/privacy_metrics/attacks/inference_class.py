@@ -24,10 +24,10 @@ class InferenceCalculator(PrivacyMetricCalculator):
         - regression (Optional[bool]): Specifies whether the target of the inference attack is quantitative
             (regression = True) or categorical (regression = False). If None (default),
             the code will try to guess this by checking the type of the variable
-        - n_attacks (int): The number of inference attacks to perform. Defaults to 500, limited by the control dataset size.
+        - n_attacks (int): The number of inference attacks to perform.
         - control (Optional[pd.DataFrame]): An optional control dataset for evaluating inference risk.
-        - original_name (Optional[str]): An optional name for the original dataset.
-        - synthetic_name (Optional[str]): An optional name for the synthetic dataset.
+        - original_name (str, optional): An optional name for the original dataset.
+        - synthetic_name (str, optional): An optional name for the synthetic dataset.
 
         Raises:
         ValueError: If aux_cols or secret parameters are not provided.
@@ -41,18 +41,15 @@ class InferenceCalculator(PrivacyMetricCalculator):
         self.aux_cols = aux_cols
         self.secret = secret
         self.regression = regression
-        self.n_attacks = min(n_attacks, len(control))
+        self.n_attacks = n_attacks
         self.control = control
 
     def evaluate(self):
         """
-        For a thorough interpretation of the attack result,
-        it is recommended to set aside a small portion of the
-        original dataset to use as a control dataset for the
-        Inference Attack. These control records should not have
-        been used to generate the synthetic dataset.
-        For good statistical accuracy on the attack results,
-        500 to 1000 control records are usually enough.
+        Evaluate the inference risk using the original and synthetic datasets.
+
+        Returns:
+        The risk assessment result from the InferenceEvaluator.
         """
         # Retrieve the data from the original and synthetic Dataset objects (no need for normalization or
         # transformation)
