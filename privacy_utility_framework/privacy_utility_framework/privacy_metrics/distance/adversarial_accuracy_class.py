@@ -5,8 +5,12 @@ from sklearn.neighbors import NearestNeighbors
 from tqdm import tqdm
 from privacy_utility_framework.privacy_utility_framework.privacy_metrics import PrivacyMetricCalculator
 
+
+# DONE
+
 class AdversarialAccuracyCalculator(PrivacyMetricCalculator):
     """Calculate nearest neighbors and adversarial accuracy metrics for original and synthetic datasets."""
+
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
                  distance_metric: str = 'euclidean',
                  original_name: str = None,
@@ -91,6 +95,7 @@ class AdversarialAccuracyCalculator(PrivacyMetricCalculator):
 class AdversarialAccuracyCalculator_NN(PrivacyMetricCalculator):
     """Calculate nearest neighbors and adversarial accuracy metrics for original and synthetic datasets using Nearest
     Neighbors (may be faster in some cases)."""
+
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
                  distance_metric: str = 'euclidean',
                  original_name: str = None,
@@ -138,7 +143,8 @@ class AdversarialAccuracyCalculator_NN(PrivacyMetricCalculator):
 
     def _compute_nn(self):
         """Compute nearest neighbors for all pairs of original and synthetic datasets."""
-        pairs = [('original', 'original'), ('original', 'synthetic'), ('synthetic', 'synthetic'), ('synthetic', 'original')]
+        pairs = [('original', 'original'), ('original', 'synthetic'), ('synthetic', 'synthetic'),
+                 ('synthetic', 'original')]
         for (t, s) in tqdm(pairs):
             t, s, d = self._nearest_neighbors(t, s)
             self.dists[(t, s)] = d

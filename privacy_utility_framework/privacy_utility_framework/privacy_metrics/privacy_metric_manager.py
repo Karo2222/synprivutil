@@ -1,18 +1,27 @@
-import pandas as pd
-
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics import DCRCalculator, NNDRCalculator
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.distance.adversarial_accuracy_class import \
-    AdversarialAccuracyCalculator
 from privacy_utility_framework.privacy_utility_framework.privacy_metrics.privacy_metric_calculator import PrivacyMetricCalculator
 from typing import Union, List, Dict
 
+# DONE
+
 
 class PrivacyMetricManager:
+    """
+    A manager for handling multiple privacy metric calculators, enabling batch addition and evaluation of metrics.
+    """
     def __init__(self):
+        # Initialize an empty list to store instances of privacy metric calculators
         self.metric_instances = []
 
     def add_metric(self, metric_instance: Union[PrivacyMetricCalculator, List[PrivacyMetricCalculator]]):
-        # Check if the input is a single instance or a list of instances
+        """
+        Adds one or multiple metric instances to the manager.
+
+        Parameters
+        ----------
+        metric_instance : Union[PrivacyMetricCalculator, List[PrivacyMetricCalculator]]
+            A single metric instance or a list of metric instances to add to the manager.
+        """
+        # Check if the input is a list of instances or a single instance and handle accordingly
         if isinstance(metric_instance, list):
             for metric in metric_instance:
                 self._add_single_metric(metric)
@@ -20,32 +29,43 @@ class PrivacyMetricManager:
             self._add_single_metric(metric_instance)
 
     def _add_single_metric(self, metric_instance: PrivacyMetricCalculator):
-        # Ensure the provided class is a subclass of PrivacyMetricCalculator
+        """
+        Adds a single metric instance to the manager.
+
+        Parameters
+        ----------
+        metric_instance : PrivacyMetricCalculator
+            An instance of a privacy metric to add.
+
+        Raises
+        ------
+        TypeError
+            If `metric_instance` is not a subclass of `PrivacyMetricCalculator`.
+        """
+        # Ensure the provided metric is a valid subclass of PrivacyMetricCalculator
         if not isinstance(metric_instance, PrivacyMetricCalculator):
             raise TypeError("Metric class must be a subclass of PrivacyMetricCalculator.")
 
         try:
+            # Append the metric instance to the list of managed metrics
             self.metric_instances.append(metric_instance)
         except Exception as e:
             print(f"Error creating metric instance: {e}")
 
     def evaluate_all(self) -> Dict[str, float]:
+        """
+        Evaluates all added metrics and returns their results.
+
+        Returns
+        -------
+        Dict[str, float]
+            A dictionary where keys are metric names concatenated with the dataset names and values are the evaluated metric scores.
+        """
         results = {}
         for metric in self.metric_instances:
+            # Retrieve the class name of each metric instance as its identifier
             metric_name = metric.__class__.__name__
-            results[metric_name] = metric.evaluate()
+            datasets_names = f"{metric.original.name, metric.synthetic.name}"
+            # Evaluate the metric and store the result in the dictionary
+            results[metric_name+datasets_names] = metric.evaluate()
         return results
-
-
-
-if __name__ == "__main__":
-    # Evaluate all added metrics
-    original_data = pd.read_csv(f"/Users/ksi/Development/Bachelorthesis/datasets/original/diabetes.csv")
-    synthetic_data = pd.read_csv(
-    f"/Users/ksi/Development/Bachelorthesis/datasets/synthetic/diabetes_datasets/ctgan_sample.csv")
-    p = PrivacyMetricManager()
-    metric_list = [DCRCalculator(original_data, synthetic_data), NNDRCalculator(original_data, synthetic_data), AdversarialAccuracyCalculator(original_data, synthetic_data)]
-    p.add_metric(metric_list)
-    results = p.evaluate_all()
-    for key, value in results.items():
-        print(f"{key}: {value}")
