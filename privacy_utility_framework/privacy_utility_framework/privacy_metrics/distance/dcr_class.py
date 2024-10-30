@@ -9,7 +9,9 @@ from privacy_utility_framework.privacy_utility_framework.privacy_metrics.privacy
 
 
 class DCRCalculator(PrivacyMetricCalculator):
-    def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame, original_name: str = None, synthetic_name: str = None, distance_metric: str = 'euclidean',
+    def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
+                 original_name: str = None, synthetic_name: str = None,
+                 distance_metric: str = 'euclidean',
                  weights: np.ndarray = None):
         """
         Initializes the DCRCalculator with datasets and a specified distance metric.
@@ -23,7 +25,8 @@ class DCRCalculator(PrivacyMetricCalculator):
             weights (np.ndarray, optional): Array of weights for each feature in the datasets.
         """
         # Initialize the superclass with datasets and settings
-        super().__init__(original, synthetic, distance_metric=distance_metric, original_name=original_name, synthetic_name=synthetic_name)
+        super().__init__(original, synthetic, distance_metric=distance_metric,
+                         original_name=original_name, synthetic_name=synthetic_name)
 
         # Validate that distance_metric is set
         if distance_metric is None:
