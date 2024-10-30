@@ -1,12 +1,13 @@
 from abc import ABC
-
 import numpy as np
 import pandas as pd
+from sdv.metadata import SingleTableMetadata
 from sdv.single_table import TVAESynthesizer, CopulaGANSynthesizer, CTGANSynthesizer, GaussianCopulaSynthesizer
 from sklearn.mixture import GaussianMixture
 
 from privacy_utility_framework.privacy_utility_framework.models.transform import transform_rdt
 
+# DONE
 
 class BaseModel(ABC):
     """
@@ -22,20 +23,20 @@ class BaseModel(ABC):
         Initializes the model with a specific synthesizer instance.
 
         Args:
-            synthesizer: An instance of a synthesizer class for generating synthetic data.
+            synthesizer: An instance of a synthesizer class used for synthetic data generation.
         """
         self.synthesizer = synthesizer
 
-    def fit(self, data):
+    def fit(self, data: pd.DataFrame) -> None:
         """
         Trains the synthesizer on the provided dataset.
 
         Args:
-            data: The data to be used for fitting the synthesizer.
+            data (pd.DataFrame): The data to be used for fitting the synthesizer.
         """
         self.synthesizer.fit(data)
 
-    def sample(self, num_samples=200):
+    def sample(self, num_samples: int = 200) -> pd.DataFrame:
         """
         Generates synthetic samples using the trained synthesizer.
 
@@ -43,11 +44,11 @@ class BaseModel(ABC):
             num_samples (int): The number of synthetic samples to generate (default is 200).
 
         Returns:
-            Returns the generated synthetic samples.
+            pd.DataFrame: The generated synthetic samples.
         """
         return self.synthesizer.sample(num_samples)
 
-    def save_sample(self, filename, num_samples=200):
+    def save_sample(self, filename: str, num_samples: int = 200) -> None:
         """
         Generates and saves synthetic samples to a CSV file.
 
@@ -59,7 +60,7 @@ class BaseModel(ABC):
         synthetic_data.to_csv(filename, index=False)
         print(f"Data saved to {filename}")
 
-    def save_model(self, filename):
+    def save_model(self, filename: str) -> None:
         """
         Saves the current synthesizer model to a file, if supported by the synthesizer.
 
@@ -76,7 +77,7 @@ class BaseModel(ABC):
             raise AttributeError(f"The current synthesizer does not support the 'save' method.")
 
     @classmethod
-    def load_model(cls, filepath):
+    def load_model(cls, filepath: str):
         """
         Loads a saved synthesizer model from a specified file and returns a model instance,
         if supported by the synthesizer.
@@ -96,7 +97,8 @@ class BaseModel(ABC):
             instance.synthesizer = synthesizer
             return instance
         else:
-            raise AttributeError(f"The synthesizer class '{cls.synthesizer_class.__name__}' does not support the 'load' method.")
+            raise AttributeError(
+                f"The synthesizer class '{cls.synthesizer_class.__name__}' does not support the 'load' method.")
 
 
 class GaussianCopulaModel(BaseModel):
@@ -106,12 +108,12 @@ class GaussianCopulaModel(BaseModel):
     """
     synthesizer_class = GaussianCopulaSynthesizer
 
-    def __init__(self, metadata):
+    def __init__(self, metadata: SingleTableMetadata):
         """
         Initializes GaussianCopulaModel with a GaussianCopulaSynthesizer instance.
 
         Args:
-            metadata: Information about the dataset structure for the synthesizer.
+            metadata (SingleTableMetadata): Metadata for the dataset structure for the synthesizer.
         """
         super().__init__(GaussianCopulaSynthesizer(metadata))
 
@@ -123,12 +125,12 @@ class CTGANModel(BaseModel):
     """
     synthesizer_class = CTGANSynthesizer
 
-    def __init__(self, metadata):
+    def __init__(self, metadata: SingleTableMetadata):
         """
         Initializes CTGANModel with a CTGANSynthesizer instance.
 
         Args:
-            metadata: Information about the dataset structure for the synthesizer.
+            metadata (SingleTableMetadata): Metadata for the dataset structure for the synthesizer.
         """
         super().__init__(CTGANSynthesizer(metadata))
 
@@ -140,12 +142,12 @@ class CopulaGANModel(BaseModel):
     """
     synthesizer_class = CopulaGANSynthesizer
 
-    def __init__(self, metadata):
+    def __init__(self, metadata: SingleTableMetadata):
         """
         Initializes CopulaGANModel with a CopulaGANSynthesizer instance.
 
         Args:
-            metadata: Information about the dataset structure for the synthesizer.
+            metadata (SingleTableMetadata): Metadata for the dataset structure for the synthesizer.
         """
         super().__init__(CopulaGANSynthesizer(metadata))
 
@@ -157,12 +159,12 @@ class TVAEModel(BaseModel):
     """
     synthesizer_class = TVAESynthesizer
 
-    def __init__(self, metadata):
+    def __init__(self, metadata: SingleTableMetadata):
         """
         Initializes TVAEModel with a TVAESynthesizer instance.
 
         Args:
-            metadata: Information about the dataset structure for the synthesizer.
+            metadata (SingleTableMetadata): Metadata for the dataset structure for the synthesizer.
         """
         super().__init__(TVAESynthesizer(metadata))
 
@@ -172,7 +174,8 @@ class GaussianMixtureModel(BaseModel):
     Model for generating synthetic data using a Gaussian Mixture Model (GMM).
     Performs data transformation and fitting with optional selection of optimal components.
     """
-    def __init__(self, max_components=10):
+
+    def __init__(self, max_components: int = 10):
         """
         Initializes GaussianMixtureModel with a maximum number of components to test for GMM.
 
@@ -185,21 +188,20 @@ class GaussianMixtureModel(BaseModel):
         self.max_components = max_components
         self.model = None
 
-    def fit(self, data, random_state=42):
+    def fit(self, data: pd.DataFrame, random_state: int = 42) -> None:
         """
         Transforms data, selects optimal components, and fits the GMM.
 
         Args:
-            data: Input data for model fitting.
+            data (pd.DataFrame): Input data for model fitting.
             random_state (int): Seed for reproducibility.
         """
         self.transformed_data, _, self.transformer = transform_rdt(data)
-        # Select the optimal number of components
         optimal_n_components = self._select_n_components(self.transformed_data, random_state)
         self.model = GaussianMixture(n_components=optimal_n_components, random_state=random_state)
         self.model.fit(self.transformed_data)
 
-    def sample(self, num_samples=200):
+    def sample(self, num_samples: int = 200) -> pd.DataFrame:
         """
         Generates synthetic samples by sampling from the fitted GMM.
 
@@ -207,7 +209,7 @@ class GaussianMixtureModel(BaseModel):
             num_samples (int): Number of synthetic samples to generate.
 
         Returns:
-            Synthetic samples in the original data format.
+            pd.DataFrame: Synthetic samples in the original data format.
         """
         if self.model is not None:
             samples, _ = self.model.sample(num_samples)
@@ -217,8 +219,9 @@ class GaussianMixtureModel(BaseModel):
         else:
             raise RuntimeError("Data has not been fitted yet.")
 
-    def save_model(self, filename):
+    def save_model(self, filename: str) -> None:
         pass
+        # NOTE: this was a test of saving the gmm model
         # np.save(filename + '_weights', self.model.weights_, allow_pickle=False)
         # np.save(filename + '_means', self.model.means_, allow_pickle=False)
         # np.save(filename + '_covariances', self.model.covariances_, allow_pickle=False)
@@ -226,8 +229,9 @@ class GaussianMixtureModel(BaseModel):
         # print(f"Model saved to {filename}")
 
     @classmethod
-    def load_model(cls, filepath):
+    def load_model(cls, filepath: str):
         pass
+        # NOTE: this was a test of loading the saved gmm model
         # means = np.load(filepath + '_means.npy')
         # covar = np.load(filepath + '_covariances.npy')
         # loaded_gmm = GaussianMixture(n_components=len(means), covariance_type='full')
@@ -240,13 +244,13 @@ class GaussianMixtureModel(BaseModel):
         # print("Gaussian Mixture Model was loaded.")
         # return instance
 
-    def _select_n_components(self, data, random_state):
+    def _select_n_components(self, data: pd.DataFrame, random_state: int) -> int:
         """
         Selects the optimal number of GMM components using the Bayesian Information Criterion (BIC).
 
         Args:
-            data: Dataset for fitting GMM models.
-            random_state: Seed for reproducibility.
+            data (pd.DataFrame): Dataset for fitting GMM models.
+            random_state (int): Seed for reproducibility.
 
         Returns:
             int: Optimal number of components based on BIC.
@@ -268,6 +272,7 @@ class RandomModel(BaseModel):
     Model that generates synthetic data by randomly sampling from a given dataset.
     This model does not require complex fitting.
     """
+
     def __init__(self):
         """
          Initializes RandomModel with no synthesizer and sets default attributes.
@@ -276,17 +281,17 @@ class RandomModel(BaseModel):
         self.data = None
         self.trained = False
 
-    def fit(self, data):
+    def fit(self, data: pd.DataFrame) -> None:
         """
         Sets the provided dataset as the source for random sampling.
 
         Args:
-            data: The dataset to be used for random sampling.
+            data (pd.DataFrame): The dataset to be used for random sampling.
         """
         self.trained = True
         self.data = data
 
-    def sample(self, num_samples=None, random_state=None):
+    def sample(self, num_samples: int = None, random_state: int = None) -> pd.DataFrame:
         """
         Randomly samples data points from the dataset.
 
@@ -295,7 +300,7 @@ class RandomModel(BaseModel):
             random_state (int): Seed for reproducibility.
 
         Returns:
-            DataFrame containing randomly sampled data.
+            pd.DataFrame: Containing randomly sampled data.
 
         Raises:
             RuntimeError if the model has not been fitted with a dataset.
@@ -307,11 +312,9 @@ class RandomModel(BaseModel):
         else:
             raise RuntimeError("No dataset provided to generator")
 
-    def save_model(self, filename):
+    def save_model(self, filename: str) -> None:
         pass
 
     @classmethod
-    def load_model(cls, filepath):
+    def load_model(cls, filepath: str):
         pass
-
-    

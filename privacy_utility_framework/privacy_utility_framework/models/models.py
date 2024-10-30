@@ -8,6 +8,8 @@ from sdv.metadata import SingleTableMetadata
 from sklearn.mixture import GaussianMixture
 from privacy_utility_framework.privacy_utility_framework.models.transform import transform_and_normalize, transform_rdt, \
     dynamic_train_test_split
+from privacy_utility_framework.privacy_utility_framework.synthesizers.synthesizers import GaussianMixtureModel, \
+    GaussianCopulaModel, CTGANModel, CopulaGANModel, TVAEModel, RandomModel
 
 orig = "diabetes"
 folder = f"{orig}_datasets"
