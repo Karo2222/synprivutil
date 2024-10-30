@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.DiSCO import group_num, tab_exclude
+from privacy_utility_framework.privacy_utility_framework.privacy_metrics.distance.DiSCO import group_num
 
 
 def disclosure_synds(
@@ -193,16 +193,6 @@ def disclosure_synds(
 
         for i in togroup:
             syn0 = np.concatenate([syndata[j].iloc[:, i].values for j in range(m)])  # All synthetic values for ith var
-            # print(f'i was {i}, togroup: {togroup}')
-            # print(f'CNA')
-            # print(cna)
-            # print(f'CNA test: {cna.iloc[:, i]}')
-            # print('NGROUPS')
-            # print(ngroups)
-            # print('NGROUPS KEYS')
-            # print(ngroups_keys)
-            # print('NGROUPS TARGET')
-            # print(ngroups_target)
             for j in range(m):
                 grpd = group_num(dd.iloc[:, i], syndata[j].iloc[:, i], syn0, ngroups[i], cont_na=cna.iloc[:, i] if cna is not None else None)
 

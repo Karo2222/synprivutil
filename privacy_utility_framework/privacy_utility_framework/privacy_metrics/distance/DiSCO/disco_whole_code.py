@@ -1,8 +1,8 @@
 import pandas as pd
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.DiSCO.disclosure_synds import disclosure_synds
+from privacy_utility_framework.privacy_utility_framework.privacy_metrics.distance.DiSCO.disclosure_synds import disclosure_synds
 # from SynPrivUtil_Framework.synprivutil.privacy_metrics.DiSCO.synorig_compare import synorig_compare
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.DiSCO.synorig_compare import synorig_compare2
+from privacy_utility_framework.privacy_utility_framework.privacy_metrics.distance.DiSCO.synorig_compare import synorig_compare2
 
 
 # Define the main disclosure function with a basic method dispatch mechanism

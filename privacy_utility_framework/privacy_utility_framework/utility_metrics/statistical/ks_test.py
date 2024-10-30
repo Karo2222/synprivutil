@@ -1,58 +1,53 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 from scipy.stats import ks_2samp
+from privacy_utility_framework.privacy_utility_framework.utility_metrics import UtilityMetricCalculator
 
-from privacy_utility_framework.privacy_utility_framework.models.transform import transform_and_normalize
+# DONE
 
+class KSCalculator(UtilityMetricCalculator):
+    def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
+                 original_name: str = None,
+                 synthetic_name: str = None):
+        """
+        Initializes the KSCalculator with original and synthetic datasets.
 
-#KSCalculator
-def ks_test_columns(original, synthetic):
-    """
-    Calculate the Kolmogorov-Smirnov statistic for each feature.
+        Parameters:
+        - original: pd.DataFrame; the original dataset.
+        - synthetic: pd.DataFrame; the synthetic dataset generated for analysis.
+        - original_name: str (default: None); the name of the original dataset for reporting.
+        - synthetic_name: str (default: None); the name of the synthetic dataset for reporting.
+        """
+        super().__init__(original, synthetic, original_name=original_name, synthetic_name=synthetic_name)
 
-    Parameters:
-        original (pd.DataFrame): Original data.
-        synthetic (pd.DataFrame): Synthetic data.
+    def evaluate(self):
+        """
+        Calculates the mean Kolmogorov-Smirnov (KS) similarity score between the original and synthetic datasets.
 
-    Returns:
-        dict: KS statistics for each feature.
-    """
-    ks_results = {}
-    for col in original.columns:
-        ks_stat, p_value = ks_2samp(original[col], synthetic[col])
-        ks_results[col] = {'KS Statistic': ks_stat, 'p-value': p_value}
-    return ks_results
+        Returns:
+        - float; the mean KS similarity score, with higher values indicating greater similarity.
+        """
+        # Run KS tests on each feature
+        ks_results = self.ks_test_columns()
+        # Calculate the mean KS similarity score based on the KS statistic
+        mean_ks_similarity = np.mean([1 - result['KS Statistic'] for result in ks_results.values()])
+        return mean_ks_similarity
 
-def ks_test(original, synthetic):
-    """Perform KS test to compare two distributions."""
-    statistic, p_value = ks_2samp(original, synthetic)
-    return statistic, p_value
+    def ks_test_columns(self):
+            """
+            Perform the Kolmogorov-Smirnov (KS) test on each feature of the original and synthetic datasets.
 
+            Returns:
+            - dict; a dictionary with feature names as keys and KS statistics and p-values as values.
+            """
+            # Retrieve transformed and normalized data from original and synthetic datasets
+            original = self.original.transformed_normalized_data
+            synthetic = self.synthetic.transformed_normalized_data
+            ks_results = {}
 
-
-if __name__ == "__main__":
-    synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
-    original_datasets =["insurance", "insurance", "diabetes"]
-    for orig in original_datasets:
-        similarities = []
-        for syn in synthetic_datasets:
-            original_data = pd.read_csv(f"/Users/ksi/Development/Bachelorthesis/{orig}.csv")
-            synthetic_data = pd.read_csv(
-                f"/privacy_utility_framework/synprivutil/models/{orig}_datasets/{syn}_sample.csv")
-            transformed_data_o, transformed_data_s = transform_and_normalize(original_data, synthetic_data)
-
-            print(f"{syn}: {transformed_data_o.columns, transformed_data_s.columns}")
-            ks_results = ks_test_columns(transformed_data_o, transformed_data_s)
-            mean_ks_similarity = np.mean([1 - result['KS Statistic'] for result in ks_results.values()])
-            similarities.append(mean_ks_similarity)
-
-        print(f"SIMS {orig}")
-        print(similarities)
-        plt.figure(figsize=(10, 5))
-        plt.bar(synthetic_datasets, similarities, color='skyblue')
-        plt.xlabel('Synthetic Datasets')
-        plt.ylabel('KS Similarity')
-        plt.title(f'Mean KS Similarity for Different Synthetic Datasets (Original: {orig})')
-        plt.ylim(0, 1)  #
-        plt.show()
+            # Perform KS test for each feature in the dataset
+            for col in original.columns:
+                # Calculate KS statistic and p-value for each column
+                ks_stat, p_value = ks_2samp(original[col], synthetic[col])
+                ks_results[col] = {'KS Statistic': ks_stat, 'p-value': p_value}
+            return ks_results
