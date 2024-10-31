@@ -45,11 +45,13 @@ Here is an example of how to use the `PrivacyMetricManager` to evaluate privacy 
 
 ```python
 original_data = pd.read_csv(f"../datasets/original/diabetes.csv")
-synthetic_data = pd.read_csv(
-    f"../datasets/synthetic/diabetes_datasets/ctgan_sample.csv")
+synthetic_data = pd.read_csv(f"../datasets/synthetic/diabetes_datasets/ctgan_sample.csv")
+
 original_name = "Diabetes"
 synthetic_name = "CTGAN"
+
 p = PrivacyMetricManager()
+
 metric_list = \
     [
         DCRCalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
