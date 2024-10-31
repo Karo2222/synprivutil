@@ -41,6 +41,31 @@ No other installation, besides cloning this repository is needed.
 - synthetic_models: includes the saved fitted models.
 
 ## Example Usage
+
+Below is an example of how to generate synthetic data using the `GaussianMixtureModel`.
+
+```python
+# Load original dataset
+original_data = pd.read_csv('../examples/insurance_datasets/train/insurance.csv')
+
+# Create metadata for the dataset
+metadata = SingleTableMetadata()
+metadata.detect_from_dataframe(original_data)
+
+# Initialize the Gaussian Mixture Model with a max of 10 components
+gmm_model = GaussianMixtureModel(max_components=10)
+# Fit the model on the original data
+gmm_model.fit(original_data)
+
+# Generate synthetic data
+synthetic_data = gmm_model.sample(len(original_data))
+
+# Save synthetic data to a CSV file
+gmm_model.save_sample("gmm_sample.csv", len(original_data))
+
+print("Synthetic data generated and saved to gmm_sample.csv.")
+```
+
 Here is an example of how to use the `PrivacyMetricManager` to evaluate privacy metrics between original and synthetic datasets.
 
 ```python
