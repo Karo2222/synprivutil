@@ -14,7 +14,7 @@ class JSCalculator(UtilityMetricCalculator):
         Initializes the JSCalculator with original and synthetic datasets.
 
         Parameters:
-        - original: pd.DataFrame; the original dataset used as a reference.
+        - original: pd.DataFrame; the original dataset.
         - synthetic: pd.DataFrame; the synthetic dataset for comparison.
         - original_name: str (default: None); optional name for the original dataset in reporting.
         - synthetic_name: str (default: None); optional name for the synthetic dataset in reporting.

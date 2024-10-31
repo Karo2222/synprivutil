@@ -1,10 +1,9 @@
 from typing import Optional
-
-import numpy as np
 import pandas as pd
 from anonymeter.evaluators import SinglingOutEvaluator
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics import PrivacyMetricCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
+
 
 # DONE
 

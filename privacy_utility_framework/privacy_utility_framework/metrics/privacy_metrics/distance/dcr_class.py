@@ -2,8 +2,8 @@ import numpy as np
 from scipy.spatial import distance
 import pandas as pd
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.privacy_metric_calculator import \
-    PrivacyMetricCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
+
 
 # DONE
 

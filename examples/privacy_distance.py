@@ -1,9 +1,13 @@
 import pandas as pd
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics import DCRCalculator, NNDRCalculator
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.distance.adversarial_accuracy_class import \
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.distance.disco import \
+    DisclosureCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.distance.adversarial_accuracy_class import \
     AdversarialAccuracyCalculator, AdversarialAccuracyCalculator_NN
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics.privacy_metric_manager import \
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.distance.dcr_class import DCRCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.distance.nndr_class import \
+    NNDRCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.privacy_metric_manager import \
     PrivacyMetricManager
 
 
@@ -55,6 +59,62 @@ def nnaa_example():
             nnaa2 = calculator_nn.evaluate()
             print(nnaa2)
 
+# def disco_example():
+#     synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
+#     original_datasets =["insurance"]
+#     #"diabetes", "cardio", "insurance"
+#
+#     diabetes_keys = ['Age', 'BMI', 'DiabetesPedigreeFunction', 'Glucose', 'BloodPressure']
+#     diabetes_target = 'Outcome'
+#
+#     cardio_keys = ['age', 'gender', 'height', 'weight', 'cholesterol', 'gluc']
+#     cardio_target = 'cardio'
+#
+#     insurance_keys = ['age', 'bmi', 'children']
+#     insurance_target = 'charges'
+#
+#     #DisclosureCalculator
+#     for orig in original_datasets:
+#         for syn in synthetic_datasets:
+#             original_data = pd.read_csv(f"../datasets/original/{orig}.csv")
+#             synthetic_data = pd.read_csv(
+#                 f"../datasets/synthetic/{orig}_datasets/{syn}_sample.csv")
+#             norm_orig, norm_syn = normalize(original_data, synthetic_data)
+#             print(f"ORIG NORM {norm_orig}")
+#             # Example 1: Demographics Focus
+#             i, a = disclosure(original_data, synthetic_data, keys=insurance_keys, target=insurance_target)
+#             print(f"RESULT DiSCO, repU: {orig}; {syn}")
+#             print(i["repU"])
+#             print(a["DiSCO"])
+
+
+def disco_new():
+    synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
+    original_datasets =["diabetes"]
+    diabetes_keys = ['Age', 'BMI', 'DiabetesPedigreeFunction', 'Glucose', 'BloodPressure']
+    diabetes_target = 'Outcome'
+
+    # Other examples, adjust parameters below
+
+    # original_datasets =["cardio"]
+    # cardio_keys = ['age', 'gender', 'height', 'weight', 'cholesterol', 'gluc']
+    # cardio_target = 'cardio'
+    #
+    #
+    original_datasets =["insurance"]
+    insurance_keys = ['age', 'bmi', 'children']
+    insurance_target = 'charges'
+
+    for orig in original_datasets:
+        for syn in synthetic_datasets:
+            original_data = pd.read_csv(f"../datasets/original/{orig}.csv")
+            synthetic_data = pd.read_csv(
+                f"../datasets/synthetic/{orig}_datasets/{syn}_sample.csv")
+            print(f"~~~Pair: {orig, syn}~~~\n")
+            calc = DisclosureCalculator(original_data, synthetic_data, keys=insurance_keys, target=insurance_target)
+            repU, DiSCO = calc.evaluate()
+            print(f"repU: {repU}, DiSCO: {DiSCO}")
+
 
 def privacy_metric_manager_example():
     original_data = pd.read_csv(f"../datasets/original/diabetes.csv")
@@ -75,8 +135,9 @@ def privacy_metric_manager_example():
     for key, value in results.items():
         print(f"{key}: {value}")
 
-
-dcr_example()
-nndr_example()
-nnaa_example()
-privacy_metric_manager_example()
+#
+# dcr_example()
+# nndr_example()
+# nnaa_example()
+# privacy_metric_manager_example()
+disco_new()

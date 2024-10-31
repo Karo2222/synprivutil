@@ -6,7 +6,6 @@ from sdv.single_table import TVAESynthesizer, CopulaGANSynthesizer, CTGANSynthes
 from sklearn.mixture import GaussianMixture
 
 from privacy_utility_framework.privacy_utility_framework.dataset.dataset import Dataset
-from privacy_utility_framework.privacy_utility_framework.models.transform import transform_rdt
 
 # DONE
 

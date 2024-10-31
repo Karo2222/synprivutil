@@ -8,6 +8,7 @@ from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics
 from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.mutual_information import \
     MICalculator
 
+
 def plot_original_vs_synthetic(original_data, synthetic_data):
     num_columns = len(original_data.columns)
     fig, axes = plt.subplots(nrows=num_columns, ncols=1, figsize=(10, 5 * num_columns))
