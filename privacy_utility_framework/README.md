@@ -5,5 +5,6 @@ This project provides a python library for generating synthetic datasets and eva
 ## Prerequisites
 
 ## Installation
+No other installation, besides cloning this repository is needed.
 
 ## Content
