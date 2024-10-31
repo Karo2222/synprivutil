@@ -4,9 +4,6 @@ from sdv.metadata import SingleTableMetadata
 from privacy_utility_framework.privacy_utility_framework.synthesizers.synthesizers import GaussianMixtureModel, \
     GaussianCopulaModel, CTGANModel, CopulaGANModel, TVAEModel, RandomModel
 
-# DONE
-
-
 def syn_generation_example():
     # Define the original dataset name
     orig = "insurance"

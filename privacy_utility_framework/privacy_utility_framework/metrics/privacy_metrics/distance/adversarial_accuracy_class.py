@@ -7,8 +7,6 @@ from tqdm import tqdm
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
 
 
-# DONE
-
 class AdversarialAccuracyCalculator(PrivacyMetricCalculator):
     """Calculate nearest neighbors and adversarial accuracy metrics for original and synthetic datasets."""
 

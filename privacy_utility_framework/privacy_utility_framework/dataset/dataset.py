@@ -3,7 +3,6 @@ from rdt import HyperTransformer
 from rdt.transformers import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler
 
-# DONE
 
 class Dataset:
     def __init__(self, data: pd.DataFrame, name=""):

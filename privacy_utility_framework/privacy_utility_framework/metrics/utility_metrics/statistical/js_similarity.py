@@ -5,8 +5,6 @@ from scipy.spatial.distance import jensenshannon
 from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics import UtilityMetricCalculator
 
 
-# DONE
-
 class JSCalculator(UtilityMetricCalculator):
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
                  original_name: str = None,

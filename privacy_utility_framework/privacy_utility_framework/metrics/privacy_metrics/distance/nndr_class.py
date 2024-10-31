@@ -5,9 +5,6 @@ from scipy.spatial import distance
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
 
 
-
-# DONE
-
 class NNDRCalculator(PrivacyMetricCalculator):
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
                  original_name: str = None,

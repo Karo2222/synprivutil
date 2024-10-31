@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-
 from privacy_utility_framework.privacy_utility_framework.dataset.dataset import DatasetManager
 from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.basic_stats import \
     BasicStatsCalculator

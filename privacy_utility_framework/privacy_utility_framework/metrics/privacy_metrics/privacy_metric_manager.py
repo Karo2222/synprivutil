@@ -3,8 +3,6 @@ from typing import Union, List, Dict
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
 
 
-# DONE
-
 class PrivacyMetricManager:
     """
     A manager for handling multiple privacy metric calculators, enabling batch addition and evaluation of metrics.

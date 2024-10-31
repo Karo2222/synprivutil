@@ -1,10 +1,7 @@
 import numpy as np
 import pandas as pd
-
 from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics import UtilityMetricCalculator
 
-
-# DONE
 
 class BasicStatsCalculator(UtilityMetricCalculator):
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,

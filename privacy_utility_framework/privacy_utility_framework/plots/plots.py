@@ -8,7 +8,6 @@ from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics
 from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.mutual_information import \
     MICalculator
 
-# DONE
 
 # Function to plot the distributions of each column in the original and synthetic datasets side by side
 def plot_original_vs_synthetic(original_data, synthetic_data):

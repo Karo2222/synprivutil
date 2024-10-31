@@ -7,7 +7,6 @@ from sklearn.mixture import GaussianMixture
 
 from privacy_utility_framework.privacy_utility_framework.dataset.dataset import Dataset
 
-# DONE
 
 class BaseModel(ABC):
     """

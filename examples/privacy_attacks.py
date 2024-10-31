@@ -1,5 +1,4 @@
 import pandas as pd
-
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.attacks.inference_class import \
     InferenceCalculator
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.attacks.linkability_class import \

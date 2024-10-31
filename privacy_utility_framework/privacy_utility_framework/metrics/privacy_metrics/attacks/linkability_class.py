@@ -5,9 +5,6 @@ from anonymeter.evaluators import LinkabilityEvaluator
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
 
 
-# DONE
-
-
 class LinkabilityCalculator(PrivacyMetricCalculator):
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
                  aux_cols: Tuple[List[str], List[str]],

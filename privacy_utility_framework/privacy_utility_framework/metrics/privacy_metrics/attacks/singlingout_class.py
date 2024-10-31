@@ -5,9 +5,6 @@ from anonymeter.evaluators import SinglingOutEvaluator
 from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics import PrivacyMetricCalculator
 
 
-# DONE
-
-
 class SinglingOutCalculator(PrivacyMetricCalculator):
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame,
                  n_cols: int = 3,

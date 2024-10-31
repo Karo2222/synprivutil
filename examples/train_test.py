@@ -1,8 +1,6 @@
 import pandas as pd
-
 from privacy_utility_framework.privacy_utility_framework.utils.utils import dynamic_train_test_split
 
-# DONE
 
 def train_test_example():
     # Define the original dataset name
@@ -22,4 +20,4 @@ def train_test_example():
     train.to_csv(f"{folder}/train/{orig}.csv", index=False)
     test.to_csv(f"{folder}/test/{orig}.csv", index=False)
 
-train_test_example()
+# train_test_example()
