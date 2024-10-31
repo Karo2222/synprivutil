@@ -16,7 +16,6 @@ For the following packages, these versions were used:
 - Scipy version: 1.13.0
 - Dython version: 0.7.8
 - OT version: 0.9.4
-- 
 ## Installation
 No other installation, besides cloning this repository is needed.
 
