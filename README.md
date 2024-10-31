@@ -41,7 +41,29 @@ No other installation, besides cloning this repository is needed.
 - synthetic_models: includes the saved fitted models.
 
 ## Example Usage
-Here is an example of how to use the `UtilityMetricManager` to evaluate utility metrics between original and synthetic datasets. This example demonstrates the use of basic statistics and mutual information metrics.
+Here is an example of how to use the `PrivacyMetricManager` to evaluate privacy metrics between original and synthetic datasets.
+
+```python
+original_data = pd.read_csv(f"../datasets/original/diabetes.csv")
+synthetic_data = pd.read_csv(
+    f"../datasets/synthetic/diabetes_datasets/ctgan_sample.csv")
+original_name = "Diabetes"
+synthetic_name = "CTGAN"
+p = PrivacyMetricManager()
+metric_list = \
+    [
+        DCRCalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
+        NNDRCalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
+        AdversarialAccuracyCalculator(original_data, synthetic_data, original_name=original_name,
+                                      synthetic_name=synthetic_name)
+    ]
+p.add_metric(metric_list)
+results = p.evaluate_all()
+for key, value in results.items():
+    print(f"{key}: {value}")
+```
+
+Here is another example of how to use the `UtilityMetricManager` to evaluate utility metrics between original and synthetic datasets. This example demonstrates the use of basic statistics and mutual information metrics.
 
 ```python
 # Load original and synthetic datasets
