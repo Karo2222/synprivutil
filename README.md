@@ -23,4 +23,20 @@ No other installation, besides cloning this repository is needed.
 ## Content
 
 - datasets: in this folder, the original and synthetic datasets can be found. The following original datasets were used: [Diabetes](https://www.kaggle.com/datasets/akshaydattatraykhare/diabetes-dataset), [Cardio](https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset) and [Insurance](https://www.kaggle.com/datasets/mirichoi0218/insurance).
-- 
+- examples:
+  - dataset_transform_normalization.py: Example of how to transform and normalize a dataset.
+  - plots.py: Some plot functions that show how plots can be generated.
+  - privacy_attacks.py: Usage-Example for each attacker-based privacy metric.
+  - privacy_distance.py: Usage-Example for each distance-based privacy metric.
+  - synthetic_data_generation.py: Example on how to generate synthetic data.
+  - train_test.py: Example of creating train and test datasets.
+  - utility.py: Usage-Example for each utility metric.
+- plots: includes different kind of generated plots from the original and synthetic datasets.
+- privacy_utility_framework: includes the framework code.
+  - privacy_utility_framework:
+    - dataset: includes the implementation of the Dataset object used across the code.
+    - metrics: includes all privacy and utility metrics.
+    - plots: includes the code for the available plots.
+    - synthesizers: includes the implementation of all synthetic data generation models.
+    - utils: utility functions, includes only dynamic_train_test_split at the moment.
+- synthetic_models: includes the saved fitted models.

@@ -1,7 +1,11 @@
 import pandas as pd
 
-from privacy_utility_framework.privacy_utility_framework.privacy_metrics import InferenceCalculator, \
-    LinkabilityCalculator, SinglingOutCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.attacks.inference_class import \
+    InferenceCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.attacks.linkability_class import \
+    LinkabilityCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.privacy_metrics.attacks.singlingout_class import \
+    SinglingOutCalculator
 
 
 def inference_example():

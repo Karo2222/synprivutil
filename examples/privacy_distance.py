@@ -60,7 +60,8 @@ def nnaa_example():
             print(nnaa2)
 
 
-def disco_new():
+def disco_example():
+    print("~~~~~~~~~DiSCO/REPU EXAMPLE~~~~~~~~~~")
     synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
     original_datasets =["diabetes"]
     diabetes_keys = ['Age', 'BMI', 'DiabetesPedigreeFunction', 'Glucose', 'BloodPressure']
@@ -107,7 +108,6 @@ def privacy_metric_manager_example():
     for key, value in results.items():
         print(f"{key}: {value}")
 
-#
 # dcr_example()
 # nndr_example()
 # nnaa_example()

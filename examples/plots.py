@@ -3,14 +3,13 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from privacy_utility_framework.privacy_utility_framework.dataset.dataset import DatasetManager
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.basic_stats import \
+    BasicStatsCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.ks_test import KSCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.wasserstein import \
+    WassersteinMethod, WassersteinCalculator
 from privacy_utility_framework.privacy_utility_framework.plots.plots import plot_original_vs_synthetic, \
     mutual_information_heatmap, plot_pairwise_relationships, correlation_plot_heatmap, plot_all_stats_for_stat
-from privacy_utility_framework.privacy_utility_framework.utility_metrics import KSCalculator
-from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.basic_stats import \
-    BasicStatsCalculator
-from privacy_utility_framework.privacy_utility_framework.utility_metrics.statistical.wasserstein import \
-    WassersteinMethod, WassersteinCalculator
-
 
 def wasserstein_plot_example():
     synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
@@ -131,4 +130,4 @@ def basic_stats_plot_example():
 # ks_test_plot_comparison()
 # correlation_plot_example()
 # wasserstein_plot_example()
-basic_stats_plot_example()
+# basic_stats_plot_example()
