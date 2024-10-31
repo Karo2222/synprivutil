@@ -39,3 +39,33 @@ No other installation, besides cloning this repository is needed.
     - synthesizers: includes the implementation of all synthetic data generation models.
     - utils: utility functions, includes only dynamic_train_test_split at the moment.
 - synthetic_models: includes the saved fitted models.
+
+## Example Usage
+Here is an example of how to use the `UtilityMetricManager` to evaluate utility metrics between original and synthetic datasets. This example demonstrates the use of basic statistics and mutual information metrics.
+
+```python
+# Load original and synthetic datasets
+original_data = pd.read_csv("../datasets/original/insurance.csv")
+synthetic_data = pd.read_csv("../datasets/synthetic/insurance_datasets/ctgan_sample.csv")
+
+# Specify dataset names for identification
+original_name = "Insurance"
+synthetic_name = "CTGAN"
+
+# Initialize UtilityMetricManager
+p = UtilityMetricManager()
+
+# Define metrics to evaluate
+metric_list = [
+    BasicStatsCalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
+    MICalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
+]
+
+# Add metrics to manager and evaluate
+p.add_metric(metric_list)
+results = p.evaluate_all()
+
+# Print results
+for key, value in results.items():
+    print(f"{key}: {value}")
+```

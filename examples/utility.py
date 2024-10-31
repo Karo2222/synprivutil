@@ -11,6 +11,8 @@ from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics
     MICalculator
 from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.statistical.wasserstein import \
     WassersteinMethod, WassersteinCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics.utility_metric_manager import \
+    UtilityMetricManager
 
 
 def wasserstein_example():
@@ -98,9 +100,27 @@ def basic_stats_example():
             print(f"PAIR {orig, syn}")
             print(res)
 
+def utility_metric_manager_example():
+    original_data = pd.read_csv(f"../datasets/original/insurance.csv")
+    synthetic_data = pd.read_csv(
+        f"../datasets/synthetic/insurance_datasets/ctgan_sample.csv")
+    original_name = "Insurance"
+    synthetic_name = "CTGAN"
+    p = UtilityMetricManager()
+    metric_list = \
+        [
+            BasicStatsCalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
+            MICalculator(original_data, synthetic_data, original_name=original_name, synthetic_name=synthetic_name),
+        ]
+    p.add_metric(metric_list)
+    results = p.evaluate_all()
+    for key, value in results.items():
+        print(f"{key}: {value}")
+
 # wasserstein_example()
 # mutual_information_example()
 # ks_example()
 # js_similarity_example()
 # correlation_example()
-basic_stats_example()
+# basic_stats_example()
+utility_metric_manager_example()
