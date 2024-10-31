@@ -3,7 +3,8 @@ import pandas as pd
 from pandas import DataFrame
 from sklearn.metrics import normalized_mutual_info_score
 
-from privacy_utility_framework.privacy_utility_framework.utility_metrics import UtilityMetricCalculator
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics import UtilityMetricCalculator
+
 
 # DONE
 

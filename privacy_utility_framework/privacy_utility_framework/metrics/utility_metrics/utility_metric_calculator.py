@@ -3,6 +3,7 @@ import pandas as pd
 
 from privacy_utility_framework.privacy_utility_framework.dataset.dataset import DatasetManager
 
+
 # DONE
 class UtilityMetricCalculator(ABC):
     def __init__(self, original: pd.DataFrame, synthetic: pd.DataFrame, original_name: str = None,
@@ -32,7 +33,6 @@ class UtilityMetricCalculator(ABC):
             The calculated utility metric score.
         """
         pass
-
 
     def _validate_data(self):
         """

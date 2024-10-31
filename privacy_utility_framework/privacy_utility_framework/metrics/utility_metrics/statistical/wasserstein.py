@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 from scipy.stats import wasserstein_distance_nd
 import ot
-from privacy_utility_framework.privacy_utility_framework.utility_metrics import UtilityMetricCalculator
 from enum import Enum
+
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics import UtilityMetricCalculator
+
 
 # DONE
 

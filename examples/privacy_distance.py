@@ -59,34 +59,6 @@ def nnaa_example():
             nnaa2 = calculator_nn.evaluate()
             print(nnaa2)
 
-# def disco_example():
-#     synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
-#     original_datasets =["insurance"]
-#     #"diabetes", "cardio", "insurance"
-#
-#     diabetes_keys = ['Age', 'BMI', 'DiabetesPedigreeFunction', 'Glucose', 'BloodPressure']
-#     diabetes_target = 'Outcome'
-#
-#     cardio_keys = ['age', 'gender', 'height', 'weight', 'cholesterol', 'gluc']
-#     cardio_target = 'cardio'
-#
-#     insurance_keys = ['age', 'bmi', 'children']
-#     insurance_target = 'charges'
-#
-#     #DisclosureCalculator
-#     for orig in original_datasets:
-#         for syn in synthetic_datasets:
-#             original_data = pd.read_csv(f"../datasets/original/{orig}.csv")
-#             synthetic_data = pd.read_csv(
-#                 f"../datasets/synthetic/{orig}_datasets/{syn}_sample.csv")
-#             norm_orig, norm_syn = normalize(original_data, synthetic_data)
-#             print(f"ORIG NORM {norm_orig}")
-#             # Example 1: Demographics Focus
-#             i, a = disclosure(original_data, synthetic_data, keys=insurance_keys, target=insurance_target)
-#             print(f"RESULT DiSCO, repU: {orig}; {syn}")
-#             print(i["repU"])
-#             print(a["DiSCO"])
-
 
 def disco_new():
     synthetic_datasets = ["copulagan", "ctgan", "gaussian_copula", "gmm", "tvae", "random"]
@@ -140,4 +112,4 @@ def privacy_metric_manager_example():
 # nndr_example()
 # nnaa_example()
 # privacy_metric_manager_example()
-disco_new()
+# disco_new()

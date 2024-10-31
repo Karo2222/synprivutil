@@ -223,6 +223,7 @@ class GaussianMixtureModel(BaseModel):
         else:
             raise RuntimeError("Data has not been fitted yet.")
 
+    # Not defined for the gmm model
     def save_model(self, filename: str) -> None:
         pass
         # NOTE: this was a test of saving the gmm model
@@ -232,6 +233,7 @@ class GaussianMixtureModel(BaseModel):
         # np.save(filename + '_precisions_cholesky', self.model.precisions_cholesky_, allow_pickle=False)
         # print(f"Model saved to {filename}")
 
+    # Not defined for the gmm model
     @classmethod
     def load_model(cls, filepath: str):
         pass
@@ -316,9 +318,11 @@ class RandomModel(BaseModel):
         else:
             raise RuntimeError("No dataset provided to generator")
 
+    # Not defined for the random model
     def save_model(self, filename: str) -> None:
         pass
 
+    # Not defined for the random model
     @classmethod
     def load_model(cls, filepath: str):
         pass

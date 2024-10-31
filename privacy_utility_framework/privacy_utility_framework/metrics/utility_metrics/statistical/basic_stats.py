@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
-from privacy_utility_framework.privacy_utility_framework.utility_metrics import UtilityMetricCalculator
+
+from privacy_utility_framework.privacy_utility_framework.metrics.utility_metrics import UtilityMetricCalculator
+
 
 # DONE
 
