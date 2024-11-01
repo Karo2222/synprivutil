@@ -1,5 +1,7 @@
 # Synthetic Data Privacy and Utility Framework
 
+This is the repository for the thesis work "Design and Implementation of a Platform for Privacy Assessment of Synthetic Data Generation with Generative AI"  done at Communication Systems Group, University of Zurich, supervised by Mr. Weijie Niu, Dr. Alberto Huertas Celdran and Prof. Dr. Burkhard Stiller.
+
 This project provides a python library for generating synthetic datasets and evaluating their privacy and utility. It includes tools for creating synthetic data, performing various privacy and utility analyses, and visualizing results through plots. The framework is designed to help researchers and developers assess the balance between data utility and privacy in synthetic datasets.
 
 ## Prerequisites
